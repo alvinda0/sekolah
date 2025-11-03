@@ -22,34 +22,18 @@ export interface LoginCredentials {
 
 // API Response Types
 export interface LoginResponse {
-  success: boolean
+  status: number
   message: string
   data: {
-    token?: string
-    requires_two_fa?: boolean
-    user_id?: string
-    method?: string
+    token: string
+    expires_at: string
   }
 }
 
 export interface UserResponse {
-  success: boolean
+  status: number
   message: string
   data: User
-}
-
-// Two Factor Authentication Types
-export interface VerifyTwoFactorPayload {
-  user_id: string
-  token: string
-}
-
-export interface TwoFactorResponse {
-  success: boolean
-  message: string
-  data: {
-    token: string
-  }
 }
 
 // Change Password Types
@@ -59,7 +43,7 @@ export interface ChangePasswordPayload {
 }
 
 export interface ChangePasswordResponse {
-  success: boolean
+  status: number
   message: string
 }
 
@@ -69,7 +53,7 @@ export interface ForgotPasswordPayload {
 }
 
 export interface ForgotPasswordResponse {
-  success: boolean
+  status: number
   message: string
 }
 
@@ -81,6 +65,6 @@ export interface ResetPasswordPayload {
 }
 
 export interface ResetPasswordResponse {
-  success: boolean
+  status: number
   message: string
 }

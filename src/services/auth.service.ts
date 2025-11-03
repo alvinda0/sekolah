@@ -3,8 +3,6 @@ import { apiClient } from '@/lib/axios'
 import {
   LoginCredentials,
   LoginResponse,
-  TwoFactorResponse,
-  VerifyTwoFactorPayload,
   User,
   UserResponse,
   ChangePasswordPayload,
@@ -19,22 +17,14 @@ class AuthService {
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
     try {
       const { data } = await apiClient.post<LoginResponse>(
-        '/api/v1/auth/login-external',
+        '/api/auth/login',
         credentials
       )
 
-      if (data.success) {
-        // Check if 2FA is required
-        if (data.data.requires_two_fa) {
-          // Return the response indicating 2FA is needed
-          return data
-        }
-
-        // If no 2FA, save token and return
-        if (data.data.token) {
-          localStorage.setItem('token', data.data.token)
-          return data
-        }
+      if (data.status === 200 && data.data.token) {
+        // Save token to localStorage
+        localStorage.setItem('token', data.data.token)
+        return data
       }
 
       throw new Error(data.message || 'Login failed')
@@ -46,32 +36,11 @@ class AuthService {
     }
   }
 
-  async verifyTwoFactor(payload: VerifyTwoFactorPayload): Promise<string> {
-    try {
-      const { data } = await apiClient.post<TwoFactorResponse>(
-        '/api/v1/auth/login/verify',
-        payload
-      )
-
-      if (data.success && data.data.token) {
-        localStorage.setItem('token', data.data.token)
-        return data.data.token
-      }
-
-      throw new Error(data.message || '2FA verification failed')
-    } catch (error: any) {
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message)
-      }
-      throw new Error(error.message || '2FA verification failed')
-    }
-  }
-
   async getCurrentUser(): Promise<User> {
     try {
       const { data } = await apiClient.get<UserResponse>('/api/v1/auth/me')
 
-      if (data.success && data.data) {
+      if (data.status === 200 && data.data) {
         return data.data
       }
 
@@ -94,7 +63,7 @@ class AuthService {
       payload
     )
 
-    if (data.success) {
+    if (data.status === 200) {
       return data.message
     }
 
@@ -107,7 +76,7 @@ class AuthService {
       payload
     )
 
-    if (data.success) {
+    if (data.status === 200) {
       return data.message
     }
 
@@ -121,7 +90,7 @@ class AuthService {
         payload
       )
 
-      if (!data.success) {
+      if (data.status !== 200) {
         throw new Error(data.message || 'Failed to change password')
       }
     } catch (error: any) {
@@ -134,6 +103,14 @@ class AuthService {
 
   logout(): void {
     localStorage.removeItem('token')
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token')
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken()
   }
 }
 

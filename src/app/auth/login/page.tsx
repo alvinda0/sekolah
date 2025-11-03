@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Eye, EyeOff, Loader2, Shield } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -17,11 +17,6 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-
-  // 2FA States
-  const [requires2FA, setRequires2FA] = useState(false)
-  const [userId, setUserId] = useState('')
-  const [twoFactorCode, setTwoFactorCode] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,13 +32,8 @@ const LoginPage = () => {
     try {
       const response = await authService.login({ email, password })
 
-      // Check if 2FA is required
-      if (response.data.requires_two_fa && response.data.user_id) {
-        setRequires2FA(true)
-        setUserId(response.data.user_id)
-        setError('') // Clear any previous errors
-      } else if (response.data.token) {
-        // Direct login without 2FA
+      // Login successful - token already saved in authService
+      if (response.status === 200 && response.data.token) {
         router.push('/dashboard')
       }
     } catch (err) {
@@ -60,130 +50,6 @@ const LoginPage = () => {
     }
   }
 
-  const handleVerify2FA = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-
-    if (!twoFactorCode || twoFactorCode.length !== 6) {
-      setError('Please enter a valid 6-digit code')
-      return
-    }
-
-    setIsLoading(true)
-
-    try {
-      await authService.verifyTwoFactor({
-        user_id: userId,
-        token: twoFactorCode
-      })
-
-      router.push('/dashboard')
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message || 'Verification failed. Please try again.')
-      } else {
-        setError('Verification failed. Please try again.')
-      }
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleBack = () => {
-    setRequires2FA(false)
-    setTwoFactorCode('')
-    setError('')
-  }
-
-  // Render 2FA verification form
-  if (requires2FA) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
-        <div className="w-full max-w-md">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-700 p-8">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600/20 rounded-full mb-4">
-                <Shield className="w-8 h-8 text-blue-500" />
-              </div>
-              <h1 className="text-3xl font-bold text-white mb-2">Two-Factor Authentication</h1>
-              <p className="text-gray-400 text-sm">
-                Enter the 6-digit code from your authenticator app
-              </p>
-            </div>
-
-            {/* Error Alert */}
-            {error && (
-              <Alert variant="destructive" className="mb-6">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            {/* 2FA Form */}
-            <form onSubmit={handleVerify2FA} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="code" className="text-gray-200">
-                  Verification Code
-                </Label>
-                <Input
-                  id="code"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={6}
-                  placeholder="000000"
-                  value={twoFactorCode}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, '')
-                    setTwoFactorCode(value)
-                  }}
-                  className="bg-gray-900/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500 text-center text-2xl tracking-widest font-mono"
-                  disabled={isLoading}
-                  autoFocus
-                />
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={isLoading || twoFactorCode.length !== 6}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Verifying...
-                  </>
-                ) : (
-                  'Verify'
-                )}
-              </Button>
-
-              {/* Back Button */}
-              <Button
-                type="button"
-                onClick={handleBack}
-                variant="outline"
-                className="w-full bg-gray-900/50 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
-                disabled={isLoading}
-              >
-                Back to Login
-              </Button>
-            </form>
-
-            {/* Footer */}
-            <div className="mt-6 text-center">
-              <p className="text-gray-500 text-xs">
-                Having trouble? Contact your administrator
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Render login form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
       <div className="w-full max-w-md">
