@@ -5,11 +5,10 @@ import { useEffect } from 'react'
 
 export function usePageTitle(title: string) {
   useEffect(() => {
-    document.title = `${title} | Payla.id Panel`
-    
-    // Cleanup: kembalikan ke default title saat unmount (optional)
+    document.title = `${title} | School`
+
     return () => {
-      document.title = 'Payla.id Panel'
+      document.title = 'School'
     }
   }, [title])
 }
