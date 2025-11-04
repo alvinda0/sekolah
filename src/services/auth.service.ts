@@ -38,7 +38,7 @@ class AuthService {
 
   async getCurrentUser(): Promise<User> {
     try {
-      const { data } = await apiClient.get<UserResponse>('/api/v1/auth/me')
+      const { data } = await apiClient.get<UserResponse>('/api/auth/profile')
 
       if (data.status === 200 && data.data) {
         return data.data
@@ -56,7 +56,6 @@ class AuthService {
       throw new Error(error.message || 'Failed to fetch user data')
     }
   }
-
   async forgotPassword(payload: ForgotPasswordPayload): Promise<string> {
     const { data } = await apiClient.post<ForgotPasswordResponse>(
       '/api/v1/auth/forget-password',

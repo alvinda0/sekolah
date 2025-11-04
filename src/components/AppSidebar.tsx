@@ -27,7 +27,7 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
   const [openMenus, setOpenMenus] = useState<string[]>([]);
   const { data: user } = useAuthMe();
 
-  const userRole = user?.role_name || "";
+  const userRole = user?.role || "";
   const filteredMenuItems = getFilteredMenuItems(userRole);
 
   const toggleMenu = (menuName: string) => {
@@ -66,7 +66,7 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
             <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-[#007BFF]/10 rounded-2xl pointer-events-none"></div>
 
             <Image
-              src="/images/logo_main.png"
+              src="/images/smk.jpe"
               alt="Logo"
               width={160}
               height={45}

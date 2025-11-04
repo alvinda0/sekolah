@@ -2,17 +2,11 @@
 
 // User Type
 export interface User {
-  user_id: string
-  name: string
-  role_name: string
-  partner_id: string
-  platform_id: string
-  agent_id: string
-  is_internal: boolean
-  is_verified: boolean
-  is_2fa: boolean
-  pin: string | null
+  role: string
+  user_id: number
+  username: string
 }
+
 
 // Login Types
 export interface LoginCredentials {

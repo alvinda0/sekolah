@@ -15,15 +15,29 @@ export function withRoleProtection<P extends object>(
       if (isLoading) return;
 
       if (!user) {
-        router.push("/dashboard");
+        router.replace("/auth/login");
         return;
       }
 
       // Menggunakan role_name string dari user
-      const hasPermission = allowedRoles.includes(user.role_name);
+      const hasPermission = allowedRoles.includes(user.role);
 
       if (!hasPermission) {
-        router.push("/dashboard");
+        // Redirect to appropriate dashboard based on role instead of generic /dashboard
+        const roleRedirects = {
+          'admin': '/dashboard/owner',
+          'student': '/dashboard/staff'
+        }
+
+        const redirectPath = roleRedirects[user.role as keyof typeof roleRedirects]
+
+        if (redirectPath) {
+          router.replace(redirectPath);
+        } else {
+          // Unknown role, redirect to login
+          localStorage.removeItem('token');
+          router.replace("/auth/login");
+        }
         return;
       }
     }, [isLoading, user, router]);
@@ -38,7 +52,7 @@ export function withRoleProtection<P extends object>(
     }
 
     // Check access
-    const hasPermission = user ? allowedRoles.includes(user.role_name) : false;
+    const hasPermission = user ? allowedRoles.includes(user.role) : false;
 
     if (!user || !hasPermission) {
       return null;
@@ -56,6 +70,6 @@ export function usePermission(requiredRole: string | string[]): boolean {
 
   // Handle single role atau multiple roles
   return Array.isArray(requiredRole)
-    ? requiredRole.includes(user.role_name)
-    : user.role_name === requiredRole;
+    ? requiredRole.includes(user.role)
+    : user.role === requiredRole;
 }

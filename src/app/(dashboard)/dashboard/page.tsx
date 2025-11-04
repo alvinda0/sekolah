@@ -9,25 +9,39 @@ const DashboardPage = () => {
   const { data: user, isLoading } = useAuthMe()
 
   useEffect(() => {
-    if (isLoading) return
-
-    if (!user) {
-      router.push('/auth/login')
+    if (isLoading) {
+      console.log('Dashboard: Still loading user data...')
       return
     }
 
-    // Define owner roles
-    const ownerRoles = ['PartnerOwner', 'PlatformOwner', 'AgentOwner']
-    const staffRoles = ['PlatformStaff', 'AgentStaff']
+    if (!user) {
+      console.log('Dashboard: No user data, redirecting to login')
+      router.replace('/auth/login')
+      return
+    }
 
-    // Redirect based on role
-    if (ownerRoles.includes(user.role_name)) {
-      router.push('/dashboard/owner')
-    } else if (staffRoles.includes(user.role_name)) {
-      router.push('/dashboard/staff')
+    console.log('Dashboard: User loaded with role:', user.role)
+
+    // Define roles and their destinations
+    const roleRedirects = {
+      'admin': '/dashboard/owner',
+      'student': '/dashboard/staff'
+    }
+
+    // Get redirect path based on role
+    const redirectPath = roleRedirects[user.role as keyof typeof roleRedirects]
+
+    if (redirectPath) {
+      console.log(`Dashboard: Redirecting ${user.role} to ${redirectPath}`)
+      // Small delay to prevent race conditions
+      setTimeout(() => {
+        router.replace(redirectPath)
+      }, 100)
     } else {
       // If role not recognized, redirect to login
-      router.push('/auth/login')
+      console.warn(`Dashboard: Unknown role: ${user.role}`)
+      localStorage.removeItem('token')
+      router.replace('/auth/login')
     }
   }, [user, isLoading, router])
 

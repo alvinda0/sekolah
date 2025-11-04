@@ -229,7 +229,7 @@ const DashboardOwner = () => {
       {/* Header */}
       <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          Welcome back, {user?.name || "Owner"}!
+          Welcome back, {user?.username || "Owner"}!
         </h1>
         <p className="text-gray-600 mt-2">
           Here&apos;s what&apos;s happening with your business today
@@ -325,7 +325,5 @@ const DashboardOwner = () => {
 };
 
 export default withRoleProtection(DashboardOwner, [
-  "PartnerOwner",
-  "PlatformOwner",
-  "AgentOwner",
+  "admin",
 ]);

@@ -49,15 +49,15 @@ const Header = () => {
   const currentTitle = subMenuItem?.title || menuItem?.title || "Dashboard";
   const currentMenuName = menuItem?.name || "Dashboard";
 
-  const userName = user?.name || "User";
-  const userRole = user?.role_name || "User";
+  const userName = user?.username || "User";
+  const userRole = user?.role || "User";
   const userInitials = userName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase();
 
-  const twoFAEnabled = user?.is_2fa || false;
+  const twoFAEnabled = user?.role || false;
   const filteredMenuItems = getFilteredMenuItems(userRole);
 
   const toggleMobileMenu = (menuName: string) => {
@@ -193,34 +193,6 @@ const Header = () => {
                   </span>
                 </button>
 
-                <button
-                  className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 text-gray-700
-                   backdrop-blur-sm bg-white/50 hover:bg-gradient-to-r hover:from-[#A0F000]/20 hover:to-[#A0F000]/10 hover:border-[#A0F000]/30 border border-white/40
-                   focus:outline-none focus:ring-2 focus:ring-[#A0F000] focus:ring-opacity-30
-                   active:scale-[0.98] cursor-pointer group shadow-sm hover:shadow-md"
-                  onClick={handleTwoFactorAuth}
-                >
-                  <div className="flex items-center">
-                    {twoFAEnabled ? (
-                      <ShieldCheck className="w-5 h-5 mr-3 text-[#A0F000]" />
-                    ) : (
-                      <Shield className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#A0F000] transition-colors" />
-                    )}
-                    <span className="font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
-                      {twoFAEnabled ? "Manage 2FA" : "Enable 2FA"}
-                    </span>
-                  </div>
-
-                  {twoFAEnabled ? (
-                    <Badge className="bg-[#A0F000]/30 text-[#A0F000] border-[#A0F000]/40 font-bold backdrop-blur-sm">
-                      Active
-                    </Badge>
-                  ) : (
-                    <Badge variant="secondary" className="bg-gray-200/50 text-gray-600 border-gray-300/50 backdrop-blur-sm">
-                      Inactive
-                    </Badge>
-                  )}
-                </button>
               </div>
 
               <Divider className="my-4" />

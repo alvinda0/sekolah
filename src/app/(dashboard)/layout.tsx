@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const { data: user, isLoading, isError, refetch } = useAuthMe();
 
-  // Check token dan force refetch saat pertama kali mount
+  // Check token dan initialize auth
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem("token");
@@ -35,28 +35,27 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       
       setIsChecking(false);
       
-      // Force refetch data user setelah login
-      try {
-        await refetch();
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      } finally {
-        // Delay sebentar untuk smooth transition
-        setTimeout(() => {
-          setIsInitializing(false);
-        }, 500);
-      }
+      // Delay sebentar untuk smooth transition
+      setTimeout(() => {
+        setIsInitializing(false);
+      }, 100); // Minimal delay
     };
 
     initializeAuth();
-  }, [router, refetch]);
+  }, [router]);
 
-  // Redirect jika error
+  // Handle authentication errors
   useEffect(() => {
     if (!isLoading && !isChecking && !isInitializing) {
-      if (isError || !user) {
-        localStorage.removeItem("token");
-        router.replace("/auth/login");
+      if (isError) {
+        console.log("Layout: Authentication error detected:", isError);
+        if (!user) {
+          console.log("Layout: No user data with error, logging out");
+          localStorage.removeItem("token");
+          router.replace("/auth/login");
+        }
+      } else if (user) {
+        console.log("Layout: User authenticated successfully:", user.name, user.role_name);
       }
     }
   }, [isLoading, isError, user, router, isChecking, isInitializing]);
