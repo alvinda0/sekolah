@@ -2,9 +2,15 @@
 
 // User Type
 export interface User {
-  role: string
-  user_id: number
+  id: number
   username: string
+  email: string
+  role: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  name?: string // Optional untuk backward compatibility
+  role_name?: string // Optional untuk backward compatibility
 }
 
 

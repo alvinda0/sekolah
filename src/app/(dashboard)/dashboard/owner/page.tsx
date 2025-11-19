@@ -4,13 +4,14 @@ import { usePageTitle } from "@/hooks/usePageTitle";
 import { useAuthMe } from "@/hooks/useAuthMe";
 import { withRoleProtection } from "@/components/ProtectedRoles";
 import {
-  TrendingUp,
+  GraduationCap,
   Users,
-  DollarSign,
-  ShoppingCart,
-  Plus,
-  FileText,
-  Settings,
+  BookOpen,
+  TrendingUp,
+  School,
+  UserCheck,
+  Award,
+  BarChart3,
 } from "lucide-react";
 import { Line, Bar } from "react-chartjs-2";
 import {
@@ -40,17 +41,27 @@ ChartJS.register(
   Filler
 );
 
-const DashboardOwner = () => {
-  usePageTitle("Dashboard Owner");
+const DashboardSekolah = () => {
+  usePageTitle("Dashboard Sekolah");
   const { data: user } = useAuthMe();
 
-  // Chart Data
-  const revenueData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  // Data Kelas
+  const dataKelas = [
+    { nama: "Kelas 7A", jumlah: 32 },
+    { nama: "Kelas 7B", jumlah: 30 },
+    { nama: "Kelas 8A", jumlah: 28 },
+    { nama: "Kelas 8B", jumlah: 31 },
+    { nama: "Kelas 9A", jumlah: 29 },
+    { nama: "Kelas 9B", jumlah: 27 },
+  ];
+
+  // Data Grafik Nilai Ujian (Rata-rata per Mata Pelajaran)
+  const nilaiUjianData = {
+    labels: ["Matematika", "B.Indonesia", "B.Inggris", "IPA", "IPS", "Seni"],
     datasets: [
       {
-        label: "Revenue",
-        data: [4000, 3000, 5000, 4500, 6000, 5500],
+        label: "Nilai Rata-rata",
+        data: [78, 82, 75, 80, 85, 88],
         borderColor: "#6366f1",
         backgroundColor: "rgba(99, 102, 241, 0.1)",
         borderWidth: 3,
@@ -65,28 +76,36 @@ const DashboardOwner = () => {
     ],
   };
 
-  const transactionData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  // Data Grafik Siswa per Kelas
+  const siswaPerKelasData = {
+    labels: dataKelas.map((k) => k.nama),
     datasets: [
       {
-        label: "Transactions",
-        data: [240, 198, 312, 278, 389, 356],
+        label: "Jumlah Siswa",
+        data: dataKelas.map((k) => k.jumlah),
         backgroundColor: [
+          "rgba(99, 102, 241, 0.8)",
           "rgba(168, 85, 247, 0.8)",
-          "rgba(168, 85, 247, 0.8)",
-          "rgba(168, 85, 247, 0.8)",
-          "rgba(168, 85, 247, 0.8)",
-          "rgba(168, 85, 247, 0.8)",
-          "rgba(168, 85, 247, 0.8)",
+          "rgba(236, 72, 153, 0.8)",
+          "rgba(251, 146, 60, 0.8)",
+          "rgba(34, 197, 94, 0.8)",
+          "rgba(14, 165, 233, 0.8)",
         ],
-        borderColor: "rgba(168, 85, 247, 1)",
+        borderColor: [
+          "rgba(99, 102, 241, 1)",
+          "rgba(168, 85, 247, 1)",
+          "rgba(236, 72, 153, 1)",
+          "rgba(251, 146, 60, 1)",
+          "rgba(34, 197, 94, 1)",
+          "rgba(14, 165, 233, 1)",
+        ],
         borderWidth: 2,
         borderRadius: 8,
       },
     ],
   };
 
-  // Chart Options
+  // Chart Options untuk Nilai Ujian
   const lineChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -104,19 +123,19 @@ const DashboardOwner = () => {
         displayColors: false,
         callbacks: {
           label: (context: { parsed: { y: number | null } }) =>
-            context.parsed.y !== null ? `${context.parsed.y.toLocaleString()}` : '$0',
+            context.parsed.y !== null ? `Nilai: ${context.parsed.y}` : "0",
         },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
+        max: 100,
         grid: {
           color: "rgba(229, 231, 235, 0.5)",
         },
         ticks: {
           color: "#6b7280",
-          callback: (value: number | string) => `$${value}`,
         },
       },
       x: {
@@ -130,6 +149,7 @@ const DashboardOwner = () => {
     },
   };
 
+  // Chart Options untuk Siswa per Kelas
   const barChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -141,13 +161,13 @@ const DashboardOwner = () => {
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         titleColor: "#1f2937",
         bodyColor: "#4b5563",
-        borderColor: "rgba(168, 85, 247, 0.2)",
+        borderColor: "rgba(99, 102, 241, 0.2)",
         borderWidth: 1,
         padding: 12,
         displayColors: false,
         callbacks: {
           label: (context: TooltipItem<"bar">) =>
-            `${context.parsed.y ?? 0} transactions`,
+            `${context.parsed.y ?? 0} siswa`,
         },
       },
     },
@@ -167,60 +187,44 @@ const DashboardOwner = () => {
         },
         ticks: {
           color: "#6b7280",
+          font: {
+            size: 11,
+          },
         },
       },
     },
   };
 
+  const totalSiswa = dataKelas.reduce((acc, kelas) => acc + kelas.jumlah, 0);
+
   const stats = [
     {
-      title: "Total Revenue",
-      value: "$28,000",
-      change: "+12.5%",
-      icon: DollarSign,
-      color: "from-green-400 to-emerald-600",
-    },
-    {
-      title: "Active Users",
-      value: "1,234",
-      change: "+8.2%",
-      icon: Users,
+      title: "Total Siswa",
+      value: totalSiswa.toString(),
+      change: "+5 siswa baru",
+      icon: GraduationCap,
       color: "from-blue-400 to-indigo-600",
     },
     {
-      title: "Transactions",
-      value: "1,773",
-      change: "+23.1%",
-      icon: ShoppingCart,
+      title: "Total Guru",
+      value: "24",
+      change: "8 guru tetap",
+      icon: Users,
       color: "from-purple-400 to-pink-600",
     },
     {
-      title: "Growth Rate",
-      value: "18.5%",
-      change: "+4.3%",
-      icon: TrendingUp,
+      title: "Jumlah Kelas",
+      value: dataKelas.length.toString(),
+      change: "3 tingkat",
+      icon: School,
+      color: "from-green-400 to-emerald-600",
+    },
+    {
+      title: "Rata-rata Nilai",
+      value: "81.3",
+      change: "+2.5 poin",
+      icon: Award,
       color: "from-orange-400 to-red-600",
-    },
-  ];
-
-  const quickActions = [
-    {
-      title: "New Transaction",
-      description: "Create new transaction",
-      icon: Plus,
-      color: "from-blue-500 to-indigo-600",
-    },
-    {
-      title: "View Reports",
-      description: "Check detailed reports",
-      icon: FileText,
-      color: "from-purple-500 to-pink-600",
-    },
-    {
-      title: "Settings",
-      description: "Manage settings",
-      icon: Settings,
-      color: "from-gray-500 to-slate-600",
     },
   ];
 
@@ -229,10 +233,10 @@ const DashboardOwner = () => {
       {/* Header */}
       <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          Welcome back, {user?.username || "Owner"}!
+          Dashboard Sekolah
         </h1>
         <p className="text-gray-600 mt-2">
-          Here&apos;s what&apos;s happening with your business today
+          Ringkasan data siswa, guru, dan prestasi akademik
         </p>
       </div>
 
@@ -268,62 +272,119 @@ const DashboardOwner = () => {
         })}
       </div>
 
+      {/* Data Kelas */}
+      <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
+        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <BookOpen className="w-6 h-6 text-indigo-600" />
+          Data Siswa Per Kelas
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {dataKelas.map((kelas, index) => (
+            <div
+              key={index}
+              className="bg-white/60 rounded-xl p-4 border border-white/30 hover:bg-white/80 transition-all hover:shadow-lg"
+            >
+              <p className="text-gray-600 text-sm font-medium">{kelas.nama}</p>
+              <p className="text-2xl font-bold text-indigo-600 mt-1">
+                {kelas.jumlah}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">siswa</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Chart */}
+        {/* Grafik Nilai Ujian */}
         <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Revenue Overview
+          <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <TrendingUp className="w-6 h-6 text-indigo-600" />
+            Rata-rata Nilai Ujian per Mata Pelajaran
           </h3>
           <div className="h-[300px]">
-            <Line data={revenueData} options={lineChartOptions} />
+            <Line data={nilaiUjianData} options={lineChartOptions} />
           </div>
         </div>
 
-        {/* Transaction Chart */}
+        {/* Grafik Siswa per Kelas */}
         <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Transaction Volume
+          <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <BarChart3 className="w-6 h-6 text-indigo-600" />
+            Distribusi Siswa per Kelas
           </h3>
           <div className="h-[300px]">
-            <Bar data={transactionData} options={barChartOptions} />
+            <Bar data={siswaPerKelasData} options={barChartOptions} />
           </div>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {quickActions.map((action, index) => {
-            const Icon = action.icon;
-            return (
-              <button
-                key={index}
-                className="group flex items-start gap-4 p-4 rounded-xl bg-white/60 border border-white/30 hover:bg-white/80 transition-all hover:-translate-y-1 hover:shadow-lg text-left"
-              >
-                <div
-                  className={`p-3 rounded-lg bg-gradient-to-br ${action.color} shadow-md group-hover:shadow-lg transition-shadow`}
-                >
-                  <Icon className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">
-                    {action.title}
-                  </h4>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {action.description}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
+      {/* Informasi Tambahan */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
+          <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <UserCheck className="w-6 h-6 text-green-600" />
+            Tingkat Kehadiran
+          </h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Siswa</span>
+              <span className="text-2xl font-bold text-green-600">94.5%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-green-400 to-emerald-600 h-3 rounded-full"
+                style={{ width: "94.5%" }}
+              ></div>
+            </div>
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-gray-600">Guru</span>
+              <span className="text-2xl font-bold text-green-600">98.2%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-green-400 to-emerald-600 h-3 rounded-full"
+                style={{ width: "98.2%" }}
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="backdrop-blur-md bg-white/40 border border-white/20 rounded-2xl p-6 shadow-xl">
+          <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <Award className="w-6 h-6 text-orange-600" />
+            Prestasi Terbaru
+          </h3>
+          <div className="space-y-3">
+            <div className="bg-white/60 rounded-lg p-3 border border-white/30 hover:bg-white/80 transition-all">
+              <p className="font-semibold text-gray-900">
+                🥇 Juara 1 Olimpiade Matematika
+              </p>
+              <p className="text-sm text-gray-600">
+                Tingkat Kota - Januari 2025
+              </p>
+            </div>
+            <div className="bg-white/60 rounded-lg p-3 border border-white/30 hover:bg-white/80 transition-all">
+              <p className="font-semibold text-gray-900">
+                🥈 Juara 2 Lomba Karya Tulis
+              </p>
+              <p className="text-sm text-gray-600">
+                Tingkat Provinsi - Desember 2024
+              </p>
+            </div>
+            <div className="bg-white/60 rounded-lg p-3 border border-white/30 hover:bg-white/80 transition-all">
+              <p className="font-semibold text-gray-900">
+                🥉 Juara 3 Festival Seni
+              </p>
+              <p className="text-sm text-gray-600">
+                Tingkat Nasional - November 2024
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default withRoleProtection(DashboardOwner, [
-  "admin",
-]);
+export default withRoleProtection(DashboardSekolah, ["system_admin"]);

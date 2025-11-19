@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,9 +12,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
 import { getFilteredMenuItems } from "@/constants/menuItems";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, GraduationCap } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAuthMe } from "@/hooks/useAuthMe";
 
@@ -52,34 +51,40 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
 
   return (
     <Sidebar
-      className="border-r-0 backdrop-blur-xl shadow-2xl rounded-r-3xl overflow-hidden"
+      className="border-r-0 overflow-hidden h-screen"
       style={{
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(0,123,255,0.05) 100%)",
+        background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
       }}
     >
-      <SidebarHeader className="px-6 pt-6">
-        <div className="flex items-center justify-center">
-          {/* Glassmorphism wrapper untuk logo */}
-          <div className="relative px-10 py-4 rounded-2xl bg-white/70 backdrop-blur-md border border-white/50 shadow-2xl">
-            {/* Inner glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-[#007BFF]/10 rounded-2xl pointer-events-none"></div>
-
-            <Image
-              src="/images/smk.jpe"
-              alt="Logo"
-              width={160}
-              height={45}
-              className="relative z-10 transition-transform duration-300 hover:scale-105"
-            />
-
-            {/* Outer glow effect - warna lebih strong */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-[#007BFF]/10 to-[#A0F000]/10 blur-xl -z-10 rounded-2xl"></div>
+      <div 
+        className="absolute inset-0 -z-10 rounded-r-3xl"
+        style={{
+          background: "linear-gradient(135deg, rgb(30,58,138) 0%, rgb(59,130,246) 100%)",
+        }}
+      />
+      <SidebarHeader className="h-20 px-6 flex items-center justify-center relative z-10">
+        <div className="flex items-center gap-3">
+          {/* Icon Logo dengan background */}
+          <div className="relative p-2.5 rounded-xl bg-white/95 backdrop-blur-md border-2 border-white shadow-xl">
+            <GraduationCap className="h-8 w-8 text-blue-700" strokeWidth={2.5} />
+            
+            {/* Outer glow effect */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/30 to-amber-500/30 blur-lg -z-10 rounded-xl"></div>
+          </div>
+          
+          {/* School Name */}
+          <div className="text-left">
+            <h2 className="text-base font-extrabold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight tracking-wide">
+              School System
+            </h2>
+            <p className="text-xs text-yellow-300 font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] tracking-wide">
+              Management Portal
+            </p>
           </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6">
+      <SidebarContent className="px-4 py-6 relative z-10">
         <SidebarMenu className="space-y-2">
           {filteredMenuItems.map((item) => {
             const isActive = activeItem === item.name;
@@ -98,13 +103,13 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                         transition-all duration-300 ease-in-out
                         backdrop-blur-md
                         ${isActive || isMenuOpen
-                          ? "bg-gradient-to-r from-[#007BFF]/90 to-[#0066DD]/90 !text-white shadow-xl shadow-[#007BFF]/30 border border-white/20"
-                          : "bg-white/50 !text-gray-700 border border-white/40 hover:border-[#007BFF]/30"
+                          ? "bg-white/95 !text-blue-900 shadow-xl shadow-white/20 border-2 border-white"
+                          : "bg-white/80 !text-gray-900 border border-white/50 hover:border-yellow-400"
                         }
                         hover:scale-[1.02] hover:shadow-lg
                         ${!isActive &&
                         !isMenuOpen &&
-                        "hover:bg-white/70 hover:!text-[#007BFF]"
+                        "hover:bg-white/90"
                         }
                       `}
                     >
@@ -115,18 +120,19 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                         className={`
                           h-5 w-5 flex-shrink-0 transition-all duration-300 relative z-10
                           ${isActive || isMenuOpen
-                            ? "text-white drop-shadow-lg"
-                            : "text-gray-600 group-hover:text-[#007BFF]"
+                            ? "text-blue-700 drop-shadow-lg"
+                            : "text-gray-700 group-hover:text-yellow-600"
                           }
                         `}
+                        strokeWidth={2.5}
                       />
 
                       <span
                         className={`
                           text-sm font-bold transition-all duration-300 flex-1 relative z-10
                           ${isActive || isMenuOpen
-                            ? "text-white"
-                            : "text-gray-700 group-hover:text-[#007BFF]"
+                            ? "text-blue-900"
+                            : "text-gray-900 group-hover:text-yellow-700"
                           }
                         `}
                       >
@@ -138,14 +144,15 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                           h-4 w-4 transition-transform duration-300 relative z-10
                           ${isMenuOpen ? "rotate-180" : ""}
                           ${isActive || isMenuOpen
-                            ? "text-white"
-                            : "text-gray-600 group-hover:text-[#007BFF]"
+                            ? "text-blue-700"
+                            : "text-gray-700 group-hover:text-yellow-600"
                           }
                         `}
+                        strokeWidth={2.5}
                       />
 
                       {(isActive || isMenuOpen) && (
-                        <div className="absolute left-0 w-1.5 h-2/3 bg-white rounded-r-full opacity-90 shadow-lg"></div>
+                        <div className="absolute left-0 w-1.5 h-2/3 bg-gradient-to-b from-yellow-400 to-amber-500 rounded-r-full shadow-lg"></div>
                       )}
                     </SidebarMenuButton>
 
@@ -160,8 +167,8 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                                 py-4 text-sm font-semibold rounded-xl
                                 transition-all duration-300 backdrop-blur-sm
                                 ${isSubmenuActive(subItem.href)
-                                  ? "bg-gradient-to-r from-[#A0F000]/90 to-[#8FD000]/90 !text-gray-900 shadow-lg shadow-[#A0F000]/30 border border-white/30"
-                                  : "bg-white/40 !text-gray-700 hover:bg-white/60 hover:!text-gray-900 border border-white/30 hover:border-[#A0F000]/40"
+                                  ? "bg-gradient-to-r from-yellow-400 to-amber-500 !text-gray-900 shadow-lg shadow-yellow-500/30 border border-yellow-300"
+                                  : "bg-white/70 !text-gray-800 hover:bg-white/85 border border-white/50 hover:border-yellow-400"
                                 }
                               `}
                             >
@@ -170,8 +177,8 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                                 className="flex items-center gap-3 w-full relative"
                               >
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none rounded-xl"></div>
-                                <subItem.icon className="h-4 w-4 relative z-10" />
-                                <span className="relative z-10">
+                                <subItem.icon className="h-4 w-4 relative z-10" strokeWidth={2.5} />
+                                <span className="relative z-10 drop-shadow-sm">
                                   {subItem.title}
                                 </span>
                               </a>
@@ -189,11 +196,11 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                       flex items-center gap-3 px-4 py-3.5 rounded-2xl 
                       transition-all duration-300 ease-in-out backdrop-blur-md
                       ${isActive
-                        ? "bg-gradient-to-r from-[#007BFF]/90 to-[#0066DD]/90 !text-white shadow-xl shadow-[#007BFF]/30 border border-white/20"
-                        : "bg-white/50 !text-gray-700 border border-white/40 hover:border-[#007BFF]/30"
+                        ? "bg-white/95 !text-blue-900 shadow-xl shadow-white/20 border-2 border-white"
+                        : "bg-white/80 !text-gray-900 border border-white/50 hover:border-yellow-400"
                       }
                       hover:scale-[1.02] hover:shadow-lg
-                      ${!isActive && "hover:bg-white/70 hover:!text-[#007BFF]"}
+                      ${!isActive && "hover:bg-white/90"}
                     `}
                   >
                     <a
@@ -206,18 +213,19 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                         className={`
                           h-5 w-5 flex-shrink-0 transition-all duration-300 relative z-10
                           ${isActive
-                            ? "text-white drop-shadow-lg"
-                            : "text-gray-600 group-hover:text-[#007BFF]"
+                            ? "text-blue-700 drop-shadow-lg"
+                            : "text-gray-700 group-hover:text-yellow-600"
                           }
                         `}
+                        strokeWidth={2.5}
                       />
 
                       <span
                         className={`
                           text-sm font-bold transition-all duration-300 relative z-10
                           ${isActive
-                            ? "text-white"
-                            : "text-gray-700 group-hover:text-[#007BFF]"
+                            ? "text-blue-900"
+                            : "text-gray-900 group-hover:text-yellow-700"
                           }
                         `}
                       >
@@ -225,7 +233,7 @@ const AppSidebar = ({ activeItem = "Dashboard" }: AppSidebarProps) => {
                       </span>
 
                       {isActive && (
-                        <div className="absolute left-0 w-1.5 h-2/3 bg-white rounded-r-full opacity-90 shadow-lg"></div>
+                        <div className="absolute left-0 w-1.5 h-2/3 bg-gradient-to-b from-yellow-400 to-amber-500 rounded-r-full shadow-lg"></div>
                       )}
                     </a>
                   </SidebarMenuButton>

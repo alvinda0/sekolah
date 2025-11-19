@@ -24,6 +24,7 @@ const DashboardPage = () => {
 
     // Define roles and their destinations
     const roleRedirects = {
+      'system_admin': '/dashboard/owner',
       'admin': '/dashboard/owner',
       'student': '/dashboard/staff'
     }

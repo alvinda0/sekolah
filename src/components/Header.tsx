@@ -112,38 +112,37 @@ const Header = () => {
     <>
       {/* Desktop Header */}
       <header
-        className="hidden md:flex w-full h-20 px-8 items-center justify-between border-b-0 shadow-lg backdrop-blur-xl"
+        className="hidden md:flex w-full h-20 px-8 items-center justify-between border-b-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(0,123,255,0.1) 100%)',
-          borderBottom: '1px solid rgba(255,255,255,0.3)',
+          background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
         }}
       >
         <div className="flex items-center gap-4">
           <div className="relative">
-            <div className="h-10 w-1.5 bg-gradient-to-b from-[#007BFF] via-[#007BFF] to-[#A0F000] rounded-full shadow-lg"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-[#007BFF] to-[#A0F000] blur-md opacity-50"></div>
+            <div className="h-10 w-1.5 bg-gradient-to-b from-yellow-400 via-yellow-500 to-amber-500 rounded-full shadow-lg"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-yellow-400 to-amber-500 blur-md opacity-50"></div>
           </div>
-          <h1 className="text-xl font-bold text-gray-800 drop-shadow-sm">{currentTitle}</h1>
+          <h1 className="text-xl font-bold text-white drop-shadow-md">{currentTitle}</h1>
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center space-x-3 backdrop-blur-md bg-white/50 border border-white/40 rounded-2xl px-5 py-2.5 transition-all duration-300 focus:outline-none group hover:bg-white/70 hover:shadow-lg hover:scale-[1.02]">
-            <Avatar className="h-9 w-9 ring-2 ring-[#007BFF]/50 transition-all duration-300 group-hover:ring-[#007BFF] shadow-lg">
-              <AvatarFallback className="bg-gradient-to-br from-[#007BFF] to-[#A0F000] text-white text-sm font-bold">
+          <DropdownMenuTrigger className="flex items-center space-x-3 backdrop-blur-md bg-white/95 border border-white/60 rounded-2xl px-5 py-2.5 transition-all duration-300 focus:outline-none group hover:bg-white hover:shadow-xl hover:scale-[1.02]">
+            <Avatar className="h-9 w-9 ring-2 ring-blue-500/50 transition-all duration-300 group-hover:ring-blue-600 shadow-lg">
+              <AvatarFallback className="bg-gradient-to-br from-blue-700 to-blue-900 text-white text-sm font-bold">
                 {userInitials}
               </AvatarFallback>
             </Avatar>
 
             <div className="flex flex-col items-start">
-              <span className="text-sm font-bold text-gray-800 group-hover:text-[#007BFF] transition-colors">
+              <span className="text-sm font-bold text-gray-800 group-hover:text-blue-700 transition-colors">
                 {userName}
               </span>
-              <span className="text-xs font-medium text-gray-500">
+              <span className="text-xs font-medium text-gray-600">
                 {userRole}
               </span>
             </div>
 
-            <ChevronDown className="h-4 w-4 text-gray-500 group-hover:text-[#007BFF] transition-colors" />
+            <ChevronDown className="h-4 w-4 text-gray-600 group-hover:text-blue-700 transition-colors" />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
@@ -151,9 +150,9 @@ const Header = () => {
             className="w-72 p-0 border-white/40 backdrop-blur-xl bg-white/95 shadow-2xl rounded-2xl overflow-hidden"
           >
             <div className="p-6">
-              <div className="flex items-center space-x-3 mb-4 pb-4 border-b border-white/30">
-                <Avatar className="h-12 w-12 ring-2 ring-[#007BFF] shadow-lg">
-                  <AvatarFallback className="bg-gradient-to-br from-[#007BFF] to-[#A0F000] text-white text-base font-bold">
+              <div className="flex items-center space-x-3 mb-4 pb-4 border-b border-gray-200">
+                <Avatar className="h-12 w-12 ring-2 ring-blue-600 shadow-lg">
+                  <AvatarFallback className="bg-gradient-to-br from-blue-700 to-blue-900 text-white text-base font-bold">
                     {userInitials}
                   </AvatarFallback>
                 </Avatar>
@@ -161,7 +160,7 @@ const Header = () => {
                   <span className="text-base font-bold text-gray-800">
                     {userName}
                   </span>
-                  <span className="text-sm font-medium text-gray-500">
+                  <span className="text-sm font-medium text-blue-600">
                     {userRole}
                   </span>
                 </div>
@@ -170,24 +169,24 @@ const Header = () => {
               <div className="space-y-2 mb-4">
                 <button
                   className="flex items-center w-full px-4 py-3 rounded-xl transition-all duration-200 text-gray-700
-   backdrop-blur-sm bg-white/50 hover:bg-white/80 hover:border-[#007BFF]/30 border border-white/40
-   focus:outline-none focus:ring-2 focus:ring-[#007BFF] focus:ring-opacity-30
+   backdrop-blur-sm bg-blue-50/80 hover:bg-blue-100 hover:border-blue-300 border border-blue-200
+   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30
    active:scale-[0.98] cursor-pointer group shadow-sm hover:shadow-md"
                   onClick={handleProfile}
                 >
-                  <User className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#007BFF] transition-colors" />
+                  <User className="w-5 h-5 mr-3 text-blue-600 group-hover:text-blue-700 transition-colors" />
                   <span className="font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
                     Profile
                   </span>
                 </button>
                 <button
                   className="flex items-center w-full px-4 py-3 rounded-xl transition-all duration-200 text-gray-700
-                   backdrop-blur-sm bg-white/50 hover:bg-white/80 hover:border-[#007BFF]/30 border border-white/40
-                   focus:outline-none focus:ring-2 focus:ring-[#007BFF] focus:ring-opacity-30
+                   backdrop-blur-sm bg-blue-50/80 hover:bg-blue-100 hover:border-blue-300 border border-blue-200
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30
                    active:scale-[0.98] cursor-pointer group shadow-sm hover:shadow-md"
                   onClick={handleChangePassword}
                 >
-                  <UserLock className="w-5 h-5 mr-3 text-gray-500 group-hover:text-[#007BFF] transition-colors" />
+                  <UserLock className="w-5 h-5 mr-3 text-blue-600 group-hover:text-blue-700 transition-colors" />
                   <span className="font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
                     Change Password
                   </span>
@@ -212,16 +211,15 @@ const Header = () => {
 
       {/* Mobile Header */}
       <header
-        className="md:hidden w-full h-16 px-4 flex items-center justify-between border-b-0 shadow-lg backdrop-blur-xl"
+        className="md:hidden w-full h-16 px-4 flex items-center justify-between border-b-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(0,123,255,0.1) 100%)',
-          borderBottom: '1px solid rgba(255,255,255,0.3)',
+          background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)",
         }}
       >
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
-            <button className="p-2 hover:bg-white/50 rounded-xl transition-all backdrop-blur-sm border border-white/40 hover:shadow-md">
-              <MenuSquare className="h-6 w-6 text-gray-700" />
+            <button className="p-2 hover:bg-white/20 rounded-xl transition-all backdrop-blur-sm border border-white/30 hover:shadow-md">
+              <MenuSquare className="h-6 w-6 text-white" />
             </button>
           </SheetTrigger>
           <SheetContent
@@ -230,7 +228,7 @@ const Header = () => {
           >
             <SheetTitle className="sr-only">Menu Navigation</SheetTitle>
             <div className="flex flex-col h-full">
-              <div className="flex-shrink-0 p-6 backdrop-blur-md bg-gradient-to-br from-white/60 to-[#007BFF]/10">
+              <div className="flex-shrink-0 p-6 backdrop-blur-md bg-gradient-to-br from-blue-700 to-blue-900">
                 <div className="flex items-center justify-between mb-4">
                   <Image
                     src="/images/logo_mini.png"
@@ -241,15 +239,15 @@ const Header = () => {
                   />
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-1 hover:bg-white/50 rounded-xl transition-all backdrop-blur-sm"
+                    className="p-1 hover:bg-white/20 rounded-xl transition-all backdrop-blur-sm"
                   >
-                    <PanelRightClose className="h-8 w-8 text-gray-600 hover:text-[#007BFF]" />
+                    <PanelRightClose className="h-8 w-8 text-white hover:text-yellow-300" />
                   </button>
                 </div>
                 <Divider className="mb-0" />
               </div>
 
-              <nav className="flex-1 overflow-y-auto px-6 pb-6 space-y-2 bg-gradient-to-b from-[#007BFF]/5 to-transparent">
+              <nav className="flex-1 overflow-y-auto px-6 pb-6 space-y-2 bg-gradient-to-b from-blue-50 to-white">
                 {filteredMenuItems.map((item) => {
                   const IconComponent = item.icon;
                   const isActive = currentMenuName === item.name;
@@ -263,8 +261,8 @@ const Header = () => {
                           <button
                             onClick={() => toggleMobileMenu(item.name)}
                             className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all backdrop-blur-sm ${isActive || isMenuOpen
-                              ? "text-white bg-gradient-to-r from-[#007BFF]/90 to-[#0066DD]/90 shadow-lg border border-white/20"
-                              : "text-gray-700 hover:text-gray-900 bg-white/50 hover:bg-white/70 border border-white/40 hover:border-[#007BFF]/30"
+                              ? "text-white bg-gradient-to-r from-blue-700 to-blue-900 shadow-lg border border-blue-600"
+                              : "text-gray-700 hover:text-gray-900 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300"
                               }`}
                           >
                             <div className="flex items-center">
@@ -284,8 +282,8 @@ const Header = () => {
                                   key={subItem.name}
                                   href={subItem.href}
                                   className={`flex items-center px-4 py-2.5 rounded-xl transition-all text-sm backdrop-blur-sm ${isMobileSubmenuActive(subItem.href)
-                                    ? "text-gray-900 bg-gradient-to-r from-[#A0F000]/90 to-[#8FD000]/90 font-bold shadow-md border border-white/30"
-                                    : "text-gray-600 hover:text-gray-900 bg-white/40 hover:bg-white/60 border border-white/30 hover:border-[#A0F000]/40"
+                                    ? "text-white bg-gradient-to-r from-yellow-500 to-amber-600 font-bold shadow-md border border-yellow-400"
+                                    : "text-gray-600 hover:text-gray-900 bg-white hover:bg-yellow-50 border border-gray-200 hover:border-yellow-300"
                                     }`}
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
@@ -300,8 +298,8 @@ const Header = () => {
                         <Link
                           href={item.href}
                           className={`flex items-center px-4 py-3 rounded-xl transition-all backdrop-blur-sm ${isActive
-                            ? "text-white bg-gradient-to-r from-[#007BFF]/90 to-[#0066DD]/90 shadow-lg border border-white/20"
-                            : "text-gray-700 hover:text-gray-900 bg-white/50 hover:bg-white/70 border border-white/40 hover:border-[#007BFF]/30"
+                            ? "text-white bg-gradient-to-r from-blue-700 to-blue-900 shadow-lg border border-blue-600"
+                            : "text-gray-700 hover:text-gray-900 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300"
                             }`}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
@@ -324,8 +322,8 @@ const Header = () => {
         <Sheet open={isMobileProfileOpen} onOpenChange={setIsMobileProfileOpen}>
           <SheetTrigger asChild>
             <button className="p-1">
-              <Avatar className="h-10 w-10 ring-2 ring-[#007BFF]/50 shadow-lg">
-                <AvatarFallback className="bg-gradient-to-br from-[#007BFF] to-[#A0F000] text-white font-bold">
+              <Avatar className="h-10 w-10 ring-2 ring-white/80 shadow-lg">
+                <AvatarFallback className="bg-gradient-to-br from-blue-700 to-blue-900 text-white font-bold">
                   {userInitials}
                 </AvatarFallback>
               </Avatar>
@@ -338,9 +336,9 @@ const Header = () => {
           >
             <SheetTitle className="sr-only">User Profile</SheetTitle>
             <div className="flex flex-col h-full p-6">
-              <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-white/30">
-                <Avatar className="h-12 w-12 ring-2 ring-[#007BFF] shadow-lg">
-                  <AvatarFallback className="bg-gradient-to-br from-[#007BFF] to-[#A0F000] text-white text-base font-bold">
+              <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-gray-200">
+                <Avatar className="h-12 w-12 ring-2 ring-blue-600 shadow-lg">
+                  <AvatarFallback className="bg-gradient-to-br from-blue-700 to-blue-900 text-white text-base font-bold">
                     {userInitials}
                   </AvatarFallback>
                 </Avatar>
@@ -348,7 +346,7 @@ const Header = () => {
                   <span className="text-base font-bold text-gray-800">
                     {userName}
                   </span>
-                  <span className="text-sm font-bold text-gray-500">
+                  <span className="text-sm font-bold text-blue-600">
                     {userRole}
                   </span>
                 </div>
@@ -357,35 +355,35 @@ const Header = () => {
               <nav className="space-y-3 mb-6">
 
                 <button
-                  className="flex items-center w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-white/50 hover:bg-white/80 hover:border-[#007BFF]/30 border border-white/40 shadow-sm hover:shadow-md"
+                  className="flex items-center w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-blue-50/80 hover:bg-blue-100 hover:border-blue-300 border border-blue-200 shadow-sm hover:shadow-md"
                   onClick={handleProfile}
                 >
-                  <User className="w-5 h-5 mr-3 text-gray-500" />
+                  <User className="w-5 h-5 mr-3 text-blue-600" />
                   <span className="font-semibold">Profile</span>
                 </button>
                 <button
-                  className="flex items-center w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-white/50 hover:bg-white/80 hover:border-[#007BFF]/30 border border-white/40 shadow-sm hover:shadow-md"
+                  className="flex items-center w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-blue-50/80 hover:bg-blue-100 hover:border-blue-300 border border-blue-200 shadow-sm hover:shadow-md"
                   onClick={handleChangePassword}
                 >
-                  <UserLock className="w-5 h-5 mr-3 text-gray-500" />
+                  <UserLock className="w-5 h-5 mr-3 text-blue-600" />
                   <span className="font-semibold">Change Password</span>
                 </button>
 
                 <button
-                  className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-white/50 hover:bg-gradient-to-r hover:from-[#A0F000]/20 hover:to-[#A0F000]/10 hover:border-[#A0F000]/30 border border-white/40 shadow-sm hover:shadow-md"
+                  className="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all text-gray-700 backdrop-blur-sm bg-blue-50/80 hover:bg-blue-100 hover:border-blue-300 border border-blue-200 shadow-sm hover:shadow-md"
                   onClick={handleTwoFactorAuth}
                 >
                   <div className="flex items-center">
                     {twoFAEnabled ? (
-                      <ShieldCheck className="w-5 h-5 mr-3 text-[#A0F000]" />
+                      <ShieldCheck className="w-5 h-5 mr-3 text-green-600" />
                     ) : (
-                      <Shield className="w-5 h-5 mr-3 text-gray-500" />
+                      <Shield className="w-5 h-5 mr-3 text-blue-600" />
                     )}
                     <span className="font-semibold">{twoFAEnabled ? "Manage 2FA" : "Enable 2FA"}</span>
                   </div>
 
                   {twoFAEnabled ? (
-                    <Badge className="bg-[#A0F000]/30 text-[#A0F000] border-[#A0F000]/40 text-xs font-bold backdrop-blur-sm">
+                    <Badge className="bg-green-100 text-green-700 border-green-300 text-xs font-bold backdrop-blur-sm">
                       Active
                     </Badge>
                   ) : (

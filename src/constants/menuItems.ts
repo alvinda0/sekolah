@@ -50,6 +50,7 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: LayoutDashboard,
     roles: [
       "admin",
+      "system_admin",
       "student",
 
     ],
@@ -58,9 +59,10 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     name: "students",
     title: "Students",
-    href: "/students",
+    href: "/student/list",
     icon: Wallet,
     roles: ["admin",
+      "system_admin",
       "student",],
     submenu: [
       {

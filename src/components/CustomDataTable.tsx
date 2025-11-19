@@ -9,44 +9,46 @@ const customStyles = {
     style: {
       backgroundColor: "transparent",
       borderRadius: "16px",
+      border: "1px solid rgba(30, 58, 138, 0.2)",
     },
   },
   headRow: {
     style: {
-      backgroundColor: "rgba(0, 123, 255, 0.08)",
+      backgroundColor: "rgba(30, 58, 138, 0.1)",
       backdropFilter: "blur(12px)",
-      borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+      borderBottom: "2px solid rgba(30, 58, 138, 0.3)",
       minHeight: "46px",
     },
   },
   headCells: {
     style: {
-      color: "#1f2937",
+      color: "#1e3a8a",
       fontSize: "14px",
       fontWeight: "700",
       textTransform: "uppercase" as const,
       letterSpacing: "0.5px",
       paddingLeft: "16px",
       paddingRight: "16px",
-      background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(0,123,255,0.05) 100%)",
+      background: "linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(30,58,138,0.1) 100%)",
       backdropFilter: "blur(8px)",
+      borderRight: "1px solid rgba(30, 58, 138, 0.15)",
     },
   },
   rows: {
     style: {
       minHeight: "56px",
-      borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-      backgroundColor: "rgba(255, 255, 255, 0.3)",
+      borderBottom: "1px solid rgba(30, 58, 138, 0.15)",
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
       backdropFilter: "blur(8px)",
       color: "#374151",
       fontSize: "14px",
       fontWeight: "500",
       transition: "all 0.2s ease",
       "&:hover": {
-        backgroundColor: "rgba(0, 123, 255, 0.08) !important",
+        backgroundColor: "rgba(30, 58, 138, 0.08) !important",
         backdropFilter: "blur(12px) !important",
         transform: "scale(1.005)",
-        boxShadow: "0 4px 12px rgba(0, 123, 255, 0.1)",
+        boxShadow: "0 4px 12px rgba(30, 58, 138, 0.15)",
       },
       "&:last-child": {
         borderBottom: "none",
@@ -64,6 +66,7 @@ const customStyles = {
       color: "#374151",
       padding: "12px 16px",
       fontWeight: "500",
+      borderRight: "1px solid rgba(30, 58, 138, 0.1)",
     },
   },
   pagination: {

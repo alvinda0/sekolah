@@ -55,7 +55,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           router.replace("/auth/login");
         }
       } else if (user) {
-        console.log("Layout: User authenticated successfully:", user.name, user.role_name);
+        console.log("Layout: User authenticated successfully:", user.username, user.role);
       }
     }
   }, [isLoading, isError, user, router, isChecking, isInitializing]);
@@ -85,25 +85,25 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-  <div className="h-screen flex w-full overflow-hidden relative bg-white pl-1 gap-4">
+  <div className="h-screen flex w-full overflow-hidden relative bg-white">
     {/* Decorative background */}
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#007BFF]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#A0F000]/5 rounded-full blur-3xl"></div>
     </div>
 
-    {/* Sidebar dengan rounded */}
-    <div className="hidden lg:block flex-shrink-0 relative z-10 rounded-3xl overflow-hidden">
+    {/* Sidebar - Desktop */}
+    <div className="hidden lg:block flex-shrink-0 relative z-10">
       <AppSidebar activeItem={activeMenuName} />
     </div>
 
-    {/* Main Area dengan rounded */}
-    <SidebarInset className="flex-1 flex flex-col min-w-0 relative z-10 rounded-l-3xl overflow-hidden bg-white/50 backdrop-blur-sm border border-white/40">
+    {/* Main Area */}
+    <SidebarInset className="flex-1 flex flex-col min-w-0 relative z-10 overflow-hidden">
       <div className="flex-shrink-0">
         <Header />
       </div>
 
-      <main className="flex-1 min-h-0 overflow-hidden">
+      <main className="flex-1 min-h-0 overflow-hidden bg-white/50 backdrop-blur-sm">
         <div className="h-full p-3 sm:p-4 lg:p-6 overflow-auto">
           {children}
         </div>
