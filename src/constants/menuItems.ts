@@ -57,6 +57,14 @@ export const MENU_ITEMS: MenuItem[] = [
   },
 
   {
+    name: "class",
+    title: "Class",
+    href: "/class",
+    icon: BookPlus,
+    roles: ["admin", "system_admin"],
+  },
+
+  {
     name: "students",
     title: "Students",
     href: "/student/list",
