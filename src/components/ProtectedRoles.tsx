@@ -26,8 +26,9 @@ export function withRoleProtection<P extends object>(
         // Redirect to appropriate dashboard based on role instead of generic /dashboard
         const roleRedirects = {
           'system_admin': '/dashboard/owner',
-          'admin': '/dashboard/owner',
-          'student': '/dashboard/staff'
+         
+          'student': '/dashboard/staff',
+          'teacher': '/dashboard/owner'
         }
 
         const redirectPath = roleRedirects[user.role as keyof typeof roleRedirects]

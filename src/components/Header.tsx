@@ -30,6 +30,7 @@ import { authService } from "@/services/auth.service";
 import { getFilteredMenuItems, getMenuItemByPath } from "@/constants/menuItems";
 import { useAuthMe } from "@/hooks/useAuthMe";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Divider = ({ className = "my-4" }: { className?: string }) => (
   <div className={`border-t border-white/30 ${className}`} />
@@ -44,6 +45,7 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { data: user } = useAuthMe();
+  const queryClient = useQueryClient();
 
   const { menuItem, subMenuItem } = getMenuItemByPath(pathname);
   const currentTitle = subMenuItem?.title || menuItem?.title || "Dashboard";
@@ -84,6 +86,7 @@ const Header = () => {
     try {
       setIsLoggingOut(true);
       authService.logout();
+      queryClient.clear();
       router.push("/auth/login");
     } catch (error) {
       console.error("Logout error:", error);

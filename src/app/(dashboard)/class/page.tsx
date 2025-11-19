@@ -94,11 +94,10 @@ const ClassPage = () => {
       sortable: true,
       cell: (row: Class) => (
         <span
-          className={`px-3 py-1.5 rounded-xl text-xs font-bold ${
-            row.is_active
-              ? "bg-green-500/20 text-green-700 border border-green-500/40"
-              : "bg-red-500/20 text-red-700 border border-red-500/40"
-          }`}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold ${row.is_active
+            ? "bg-green-500/20 text-green-700 border border-green-500/40"
+            : "bg-red-500/20 text-red-700 border border-red-500/40"
+            }`}
         >
           {row.is_active ? "Active" : "Inactive"}
         </span>
@@ -175,4 +174,4 @@ const ClassPage = () => {
   );
 };
 
-export default withRoleProtection(ClassPage, ["admin", "system_admin"]);
+export default withRoleProtection(ClassPage, ["system_admin"]);

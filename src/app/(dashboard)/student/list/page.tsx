@@ -177,4 +177,4 @@ const StudentListPage = () => {
   );
 };
 
-export default withRoleProtection(StudentListPage, ["admin", "system_admin"]);
+export default withRoleProtection(StudentListPage, ["admin", "system_admin", "teacher"]);

@@ -49,7 +49,7 @@ export const MENU_ITEMS: MenuItem[] = [
     href: "/dashboard",
     icon: LayoutDashboard,
     roles: [
-      "admin",
+      "teacher",
       "system_admin",
       "student",
 
@@ -61,7 +61,7 @@ export const MENU_ITEMS: MenuItem[] = [
     title: "Class",
     href: "/class",
     icon: BookPlus,
-    roles: ["admin", "system_admin"],
+    roles: ["system_admin"],
   },
 
   {
@@ -69,7 +69,7 @@ export const MENU_ITEMS: MenuItem[] = [
     title: "Students",
     href: "/student/list",
     icon: Wallet,
-    roles: ["admin",
+    roles: ["teacher",
       "system_admin",
       "student",],
     submenu: [
@@ -78,7 +78,7 @@ export const MENU_ITEMS: MenuItem[] = [
         title: "Students Class",
         href: "/student/class",
         icon: LayoutList,
-        roles: ["admin",
+        roles: ["teacher",
           "student",],
       },
       {
@@ -86,7 +86,7 @@ export const MENU_ITEMS: MenuItem[] = [
         title: "Students List",
         href: "/student/list",
         icon: LayoutList,
-        roles: ["admin",
+        roles: ["teacher",
           "student",],
       },
     ],

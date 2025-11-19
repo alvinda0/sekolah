@@ -30,10 +30,10 @@ export function useAuthMe() {
       // Retry maksimal 1 kali untuk error lainnya
       return failureCount < 1;
     },
-    staleTime: 2 * 60 * 1000, // 2 menit
-    gcTime: 5 * 60 * 1000, // 5 menit
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    refetchOnMount: true,
+    refetchOnMount: 'always',
     enabled: hasToken, // Hanya jalankan query jika ada token
   });
 }

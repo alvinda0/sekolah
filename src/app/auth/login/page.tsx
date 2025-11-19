@@ -9,9 +9,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Eye, EyeOff, Loader2, GraduationCap, BookOpen, Users } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
 
 const LoginPage = () => {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -33,6 +35,8 @@ const LoginPage = () => {
       const response = await authService.login({ email, password })
 
       if (response.status === 200 && response.data.token) {
+        await queryClient.invalidateQueries({ queryKey: ['auth', 'me'] })
+        await queryClient.removeQueries({ queryKey: ['auth'] })
         router.push('/dashboard')
       }
     } catch (err) {
